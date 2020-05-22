@@ -77,20 +77,35 @@ def formatSymptom(strSymptom):
             newStr = newStr + c
     return newStr
 
+# Función que formatea la respuesta del usuario
+def formatUserResponse(userResponse):
+    formatedUserResponse = list()
+    userResponse = userResponse.split(",")
+    for op in userResponse:
+        formatedUserResponse.append(int(op))
+    return formatedUserResponse
 
 # Algoritmo
 
 # Se listan todos los síntomas, sin repetir
-symptoms = list(p.query("sickness(Sick, Symp1, Symp2, Symp3, Symp4)"))
-symptoms = listSymptoms(symptoms)
+allSymptoms = list(p.query("sickness(Sick, Symp1, Symp2, Symp3, Symp4)"))
+symptoms = listSymptoms(allSymptoms)
 
 # Se consulta al usuario si presenta algún síntoma
 print("***          DocBot v1.0            ***\n\n")
-print("Indique el número de los síntomas que presenta, puede\nindicar más de uno sepa´randolos con coma (,)")
+print("Síntomas frecuentes")
 i = 0
 for symptom in symptoms:
-    print(i, ".- ", symptom)
+    print(i, ".- ", formatSymptom(symptom))
     i = i+1
+
+userResponse = input("\nIndique el número de los síntomas que presenta,\npuede indicar más de uno separándolos con coma (,): ")
+# Se formatea la repsuesta del usuario
+userResponse = formatUserResponse(userResponse)
+
+# Se hace el cruce de las
+
+
 
 
 
