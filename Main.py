@@ -124,13 +124,21 @@ for symptom in symptoms:
 userResponse = input("\nIndique el número de los síntomas que presenta,\npuede indicar más de uno separándolos con coma (,): ")
 # Se formatea la repsuesta del usuario
 userResponse = formatUserResponse(userResponse, symptoms)
+
 # Se hace el cruce de los síntomas con las enfermedades
+possibleSickness = possibleUserSickness(userResponse)       # Entrega una lista con las posibles enfermedades
+possibleSympsoms = possibleUserSymptoms(possibleSickness)
 
-Q = possibleUserSickness(userResponse)
-print(Q)
-Q1 = possibleUserSymptoms(Q)
-print(Q1)
-
+# Se entrega la información por pantalla
+print("\nDe acuerdo a sus síntomas, usted podría tener:")
+i = 0
+for sickness in possibleSickness:
+    print("\n",i+1,".-", sickness["X"])
+    print("por lo cual usted podría sufrir de:")
+    symptomsAux = possibleUserSymptoms(possibleSickness[i:i+1])
+    for symptom in symptomsAux:
+        print("     ",formatSymptom(symptom))
+    i = i+1
 
 
 
