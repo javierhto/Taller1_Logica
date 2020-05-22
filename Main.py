@@ -83,9 +83,15 @@ def formatSymptom(strSymptom):
 # Se listan todos los síntomas, sin repetir
 symptoms = list(p.query("sickness(Sick, Symp1, Symp2, Symp3, Symp4)"))
 symptoms = listSymptoms(symptoms)
-print(symptoms)
 
 # Se consulta al usuario si presenta algún síntoma
+print("***          DocBot v1.0            ***\n\n")
+print("Indique el número de los síntomas que presenta, puede\nindicar más de uno sepa´randolos con coma (,)")
+i = 0
+for symptom in symptoms:
+    print(i, ".- ", symptom)
+    i = i+1
+
 
 
 
