@@ -103,7 +103,7 @@ userResponse = input("\nIndique el número de los síntomas que presenta,\npuede
 # Se formatea la repsuesta del usuario
 userResponse = formatUserResponse(userResponse)
 
-# Se hace el cruce de las
+# Se hace el cruce de los síntomas con las enfermedades
 
 
 
