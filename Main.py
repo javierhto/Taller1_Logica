@@ -1,4 +1,4 @@
-"""El amplio desarrollo que ha tenido la tecnología en las últimas décadas ha permitido diseñar
+'''El amplio desarrollo que ha tenido la tecnología en las últimas décadas ha permitido diseñar
 e implementar soluciones computacionales cada vez más robustas y complejas para
 abordar problemas del mundo real. El constante incremento en la capacidad de computo y
 de almacenamiento, así como el desarrollo de nuevas técnicas que involucran, por ejemplo,
@@ -19,39 +19,34 @@ diversas preguntas realizadas al usuario indicar una posible afección médica .
 Entre los requerimientos computacionales de dicha herramienta, se debe considerar una
 aplicación que en base a preguntas de diversos síntomas determine si el usuario padece o
 no una enfermedad. Como solución, el sistema debe indicar al usuario el posible
-padecimiento al cual responden los síntomas informados, así como su tratamiento ."""
+padecimiento al cual responden los síntomas informados, así como su tratamiento .'''
 
 from pyswip import Prolog
 p = Prolog()
 
+# p.assertz("sickness(sickness1, symptom1, symptom2, symptom3, symptom4)")
 
-#p.assertz("sickness(sickness1, symptom1, symptom2, symptom3, symptom4)")
+p.assertz("sickness(amigdalitis, fiebre, dolor_de_cabeza, dolor_de_garganta, amigdalas_rojas)")
+p.assertz("sickness(bronquitis, fiebre_ligera, tos, fatiga, dolor_de_pecho)")
+p.assertz("sickness(cancer_garganta, tos, dolor_de_oido, dificultad_de_tragar, adelgazamiento)")
+p.assertz("sickness(diabetes, sed, fatiga, adelgazamiento, vision_borrosa)")
+p.assertz("sickness(gastritis, dolor_de_abdomen, nauseas, vomitos, saciedad)")
+p.assertz("sickness(hipoglucemia, fatiga, ansiedad, hambre, ritmo_cardiaco_irregular)")
+p.assertz("sickness(infeccion_renal, fiebre_ligera, dolor_de_espalda, dolor_de_abdomen, dolor_al_orinar)")
+p.assertz("sickness(laringitis, ronquera, dolor_de_garganta, tos, sequedad_de_garganta)")
+p.assertz("sickness(paperas, glandulas_salivales_inflamadas, fiebre, dolor_de_cabeza, fatiga)")
+p.assertz("sickness(sarampion, fiebre, sarpullido, dolor_de_garganta, manchas_blancas)")
+p.assertz("sickness(tetanos, rigidez_musculos, dificultad_de_tragar, espasmos, ritmo_cardiaco_irregular)")
+p.assertz("sickness(vih, dolor_de_cabeza, dolor_muscular, adelgazamiento, glandulas_linfaticos_inflamados)")
+p.assertz("sickness(sofoco, piel_enrojecida, ritmo_cardiaco_irregular, sudoracion, calor)")
+p.assertz("sickness(orquitis, fiebre, vomitos, nauseas, hinchazon_testicular)")
+p.assertz("sickness(hepatitis_a, fatiga, fiebre_ligera, vomitos, orina_oscura)")
+p.assertz("sickness(lupus, fatiga, fiebre, hinchazon_rostro, dolor_de_pecho)")
 
-p.assertz("sickness(Amigdalitis, Fiebre, Dolor_de_cabeza, Dolor_de_garganta, Amigdalas_rojas)")
-p.assertz("sickness(Bronquitis, Fiebre_ligera, Tos, Fatiga, Dolor_de_pecho)")
-p.assertz("sickness(Cancer_garganta, Tos, Dolor_de_oido, Dificultad_de_tragar, Adelgazamiento)")
-p.assertz("sickness(Diabetes, Sed, Fatiga, Adelgazamiento, Vision_borrosa)")
-p.assertz("sickness(Gastritis, Dolor_de_abdomen, Nauseas, Vomitos, Saciedad)")
-p.assertz("sickness(Hipoglucemia, Fatiga, Ansiedad, Hambre, Ritmo_cardiaco_irregular)")
-p.assertz("sickness(infeccion_renal, Fiebre_ligera, Dolor_de_espalda, Dolor_de_abdomen, Dolor_al_orinar)")
-p.assertz("sickness(Laringitis, Ronquera, Dolor_de_garganta, Tos, Sequedad_de_garganta)")
-p.assertz("sickness(Paperas, Glandulas_salivales_inflamadas, Fiebre, Dolor_de_cabeza, Fatiga)")
-p.assertz("sickness(Sarampion, Fiebre, Sarpullido, Dolor_de_garganta, Manchas_blancas)")
-p.assertz("sickness(Tetanos, Rigidez_musculos, Dificultad_de_tragar, Espasmos, Ritmo_cardiaco_irregular)")
-p.assertz("sickness(VIH/Sida, Dolor_de_cabeza, Dolor_muscular, Adelgazamiento, Glandulas_linfaticos_inflamados)")
-p.assertz("sickness(Sofoco, Piel_enrojecida, Ritmo_cardiaco_irregular, Sudoracion, Calor)")
-p.assertz("sickness(Orquitis, Fiebre, Vomitos, Nauseas, Hinchazon_testicular)")
-p.assertz("sickness(Hepatitis_A, Fatiga, Fiebre_ligera, Vomitos, Orina_oscura)")
-p.assertz("sickness(Lupus, Fatiga, Fiebre, Hinchazon_rostro, Dolor_de_pecho)")
+p.assertz("is_symptom(X,Y) :- sickness(X,Y,_,_,_); sickness(X,_,Y,_,_); sickness(X,_,_,Y,_); sickness(X,_,_,_,Y)")
 
+for combination in list(p.query("sickness(T, W, X, Y, Z)")):
+    print(combination["W"], combination["X"], combination["Y"], combination["Z"], "are symptoms of: ", combination["T"])
 
-p.assertz("is_symptom(X,Y) :- sickness(X,Y,_,_)")
-p.assertz("is_symptom(X,Y) :- sickness(X,_,Y,_)")
-p.assertz("is_symptom(X,Y) :- sickness(X,_,_,Y)")
-
-""""""
-
-"""p.assertz("esSintoma(catarro, gripe)")
-p.assertz("esSintoma(tos, gripe)")
-
-print (list(p.query('is_symptom(X, Y))')))"""
+Q = list(p.query("is_symptom(X, fiebre)"))
+print(Q)
