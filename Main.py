@@ -21,9 +21,11 @@ aplicación que en base a preguntas de diversos síntomas determine si el usuari
 no una enfermedad. Como solución, el sistema debe indicar al usuario el posible
 padecimiento al cual responden los síntomas informados, así como su tratamiento .'''
 
+# Se importa la librería pyswip para trabajar con prolog
 from pyswip import Prolog
 p = Prolog()
 
+# Definición de hechos - Síntomas por enfermedad
 # p.assertz("sickness(sickness1, symptom1, symptom2, symptom3, symptom4)")
 
 p.assertz("sickness(amigdalitis, fiebre, dolor_de_cabeza, dolor_de_garganta, amigdalas_rojas)")
@@ -43,10 +45,65 @@ p.assertz("sickness(orquitis, fiebre, vomitos, nauseas, hinchazon_testicular)")
 p.assertz("sickness(hepatitis_a, fatiga, fiebre_ligera, vomitos, orina_oscura)")
 p.assertz("sickness(lupus, fatiga, fiebre, hinchazon_rostro, dolor_de_pecho)")
 
-p.assertz("is_symptom(X,Y) :- sickness(X,Y,_,_,_); sickness(X,_,Y,_,_); sickness(X,_,_,Y,_); sickness(X,_,_,_,Y)")
 
-for combination in list(p.query("sickness(T, W, X, Y, Z)")):
-    print(combination["W"], combination["X"], combination["Y"], combination["Z"], "are symptoms of: ", combination["T"])
+# Definición de reglas
 
-Q = list(p.query("is_symptom(X, fiebre)"))
-print(Q)
+# Revisa si el síntoma X corresponde a la enfermedad Y
+p.assertz("is_symptom(X,Y) :- sickness(Y,X,_,_,_); sickness(Y,_,X,_,_); sickness(Y,_,_,X,_); sickness(Y,_,_,_,X)")
+
+# Definición de funciones
+
+# Función que lista todos los síntomas sin repetir
+def listSymptoms(symptoms):
+    allSymptoms = list()
+    for symptom in symptoms:
+        if (not(symptom["Symp1"] in allSymptoms)):
+            allSymptoms.append(symptom["Symp1"])
+        if (not (symptom["Symp2"] in allSymptoms)):
+            allSymptoms.append(symptom["Symp2"])
+        if (not (symptom["Symp3"] in allSymptoms)):
+            allSymptoms.append(symptom["Symp3"])
+        if (not (symptom["Symp4"] in allSymptoms)):
+            allSymptoms.append(symptom["Symp4"])
+    return allSymptoms
+
+# Función que formatea el string
+def formatSymptom(strSymptom):
+    newStr = ""
+    for c in strSymptom:
+        if (c == '_'):
+            newStr = newStr + ' '
+        else:
+            newStr = newStr + c
+    return newStr
+
+
+# Algoritmo
+
+# Se listan todos los síntomas, sin repetir
+symptoms = list(p.query("sickness(Sick, Symp1, Symp2, Symp3, Symp4)"))
+symptoms = listSymptoms(symptoms)
+print(symptoms)
+
+# Se consulta al usuario si presenta algún síntoma
+
+
+
+
+
+
+
+
+# dump
+
+#for combination in list(p.query("sickness(T, W, X, Y, Z)")):
+#    print(combination["W"], combination["X"], combination["Y"], combination["Z"], "are symptoms of: ", combination["T"])
+
+#Q = list(p.query("is_symptom(X, fiebre)"))
+# print(Q)
+
+#symptom = "fiebre"
+#Q = "is_symptom(X,"+symptom+")"
+#print(Q)
+#result = list(p.query(Q))
+#print(result)
