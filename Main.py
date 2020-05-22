@@ -78,12 +78,34 @@ def formatSymptom(strSymptom):
     return newStr
 
 # Función que formatea la respuesta del usuario
-def formatUserResponse(userResponse):
+def formatUserResponse(userResponse, symptoms):
     formatedUserResponse = list()
     userResponse = userResponse.split(",")
     for op in userResponse:
-        formatedUserResponse.append(int(op))
+        # Cambio para que devuelva el string del sintoma en lugar de su indice
+        formatedUserResponse.append(symptoms[int(op)])
     return formatedUserResponse
+
+# Función que hace la consulta a partir de una lista con los sintomas del usuario
+def possibleUserSickness(userSymp):
+    queryString = ""
+    for symptom in userSymp:
+        queryString += "is_symptom("+ symptom +", X),"
+    Q = list(p.query(queryString[:-1]))
+    return Q
+
+# Función que devuelve los sintomas de las posibles enfermedades que tenga el usuario
+def possibleUserSymptoms(sickList):
+    posSymp = []
+    i = 0
+    while i < len(sickList):
+        temp = list(p.query("sickness("+ sickList[i]["X"] +",Symp1,Symp2,Symp3,Symp4)"))
+        if not(temp[0]["Symp1"] in posSymp): posSymp.append(temp[0]["Symp1"])
+        if not(temp[0]["Symp2"] in posSymp): posSymp.append(temp[0]["Symp2"])
+        if not(temp[0]["Symp3"] in posSymp): posSymp.append(temp[0]["Symp3"])
+        if not(temp[0]["Symp4"] in posSymp): posSymp.append(temp[0]["Symp4"])
+        i += 1
+    return posSymp
 
 # Algoritmo
 
@@ -101,12 +123,13 @@ for symptom in symptoms:
 
 userResponse = input("\nIndique el número de los síntomas que presenta,\npuede indicar más de uno separándolos con coma (,): ")
 # Se formatea la repsuesta del usuario
-userResponse = formatUserResponse(userResponse)
-
+userResponse = formatUserResponse(userResponse, symptoms)
 # Se hace el cruce de los síntomas con las enfermedades
 
-
-
+Q = possibleUserSickness(userResponse)
+print(Q)
+Q1 = possibleUserSymptoms(Q)
+print(Q1)
 
 
 
