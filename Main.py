@@ -129,33 +129,19 @@ userResponse = formatUserResponse(userResponse, symptoms)
 possibleSickness = possibleUserSickness(userResponse)       # Entrega una lista con las posibles enfermedades
 possibleSympsoms = possibleUserSymptoms(possibleSickness)
 
-# Se entrega la información por pantalla
-print("\nDe acuerdo a sus síntomas, usted podría tener:")
-i = 0
-for sickness in possibleSickness:
-    print("\n",i+1,".-", sickness["X"])
-    print("por lo cual usted podría sufrir de:")
-    symptomsAux = possibleUserSymptoms(possibleSickness[i:i+1])
-    for symptom in symptomsAux:
-        print("     ",formatSymptom(symptom))
-    i = i+1
+if (len(possibleSickness) == 0):
+    print("\nLos sintomas descritos no coincide con ninguna enfermedad conocida\nPreocupese...")
+else:
+    # Se entrega la información por pantalla
+    print("\nDe acuerdo a sus síntomas, usted podría tener:")
+    i = 0
+    for sickness in possibleSickness:
+        print("\n",i+1,".-", sickness["X"])
+        print("por lo cual usted podría sufrir de:")
+        symptomsAux = possibleUserSymptoms(possibleSickness[i:i+1])
+        for symptom in symptomsAux:
+            print("     ",formatSymptom(symptom))
+        i = i+1
 
+print("\n...Fin del Programa...")
 
-
-
-
-
-
-# dump
-
-#for combination in list(p.query("sickness(T, W, X, Y, Z)")):
-#    print(combination["W"], combination["X"], combination["Y"], combination["Z"], "are symptoms of: ", combination["T"])
-
-#Q = list(p.query("is_symptom(X, fiebre)"))
-# print(Q)
-
-#symptom = "fiebre"
-#Q = "is_symptom(X,"+symptom+")"
-#print(Q)
-#result = list(p.query(Q))
-#print(result)
